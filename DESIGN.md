@@ -52,6 +52,25 @@ Web-based tool for network infrastructure planning. Calculates bandwidth require
     }
   };
 
+  ## File Structure
+
+  bandwidth-calculator/
+├── public/                 # Static files (images, index.html)
+├── src/
+│   ├── calculator/
+│   │   ├── engine.js       # THE CORE: all math functions
+│   │   └── engine.test.js  # Tests to verify math is correct
+│   ├── components/
+│   │   ├── ScenarioForm.jsx    # User input form
+│   │   ├── ResultsPanel.jsx    # Displays results
+│   │   └── UsageSlider.jsx     # Reusable percentage slider
+│   ├── utils/
+│   │   └── pdfExport.js        # Creates PDF reports
+│   ├── App.jsx             # Main app container
+│   └── index.js            # App entry point
+├── DESIGN.md               # This document
+└── README.md               # Project description
+
   
 
 
