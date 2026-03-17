@@ -98,4 +98,4 @@
     }
 
     // Export functions for use in tests and UI
-    module.exports = {calculateBandwidth, determineInfrastructure};
+export { calculateBandwidth, determineInfrastructure };
