@@ -83,7 +83,7 @@
                 type: 'fiber',
                 description: 'fiber To The Premises(GPON)',
                 maxCapacity: 1000,
-                pros: ['Reliable', 'Futureoprrof to 10Gbps'],
+                pros: ['Reliable', 'Futureproof to 10Gbps'],
                 cons: ['Installation time', 'Higher initial cost']
             };
         } else {
