@@ -4,7 +4,7 @@ import { estimateCosts } from '../calculator/costEstimator';
 import { generatePDF } from '../utils/pdfExport';
 
 function CalculatorForm() {
-  // State: where user input lives
+  // State
   const [inputs, setInputs] = useState({
     userCount: 50,
     usageProfile: {
@@ -19,7 +19,10 @@ function CalculatorForm() {
 
   const [result, setResult] = useState(null);
 
-  // Handle number input changes
+  // Calculate total usage percentage
+  const totalUsage = Object.values(inputs.usageProfile).reduce((a, b) => a + b, 0);
+
+  // Handlers
   const handleNumberChange = (e) => {
     const { name, value } = e.target;
     setInputs(prev => ({
@@ -28,7 +31,6 @@ function CalculatorForm() {
     }));
   };
 
-  // Handle usage profile changes
   const handleUsageChange = (type, value) => {
     setInputs(prev => ({
       ...prev,
@@ -39,88 +41,109 @@ function CalculatorForm() {
     }));
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const calculation = calculateBandwidth(inputs);
-  const costs = estimateCosts(
-    calculation.infrastructure.type,
-    calculation.futureProofed,
-    inputs.growthYears
-  );
-  setResult({ ...calculation, costs }); 
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const calculation = calculateBandwidth(inputs);
+    const costs = estimateCosts(
+      calculation.infrastructure.type,
+      calculation.futureProofed,
+      inputs.growthYears
+    );
+    setResult({ ...calculation, costs });
+  };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+    <div className="calculator-card">
       <h2>Network Bandwidth Calculator</h2>
       
       <form onSubmit={handleSubmit}>
         {/* User Count */}
-        <div style={{ marginBottom: '15px' }}>
-          <label>Number of Users: </label>
+        <div className="form-group">
+          <label>Number of Users</label>
           <input
             type="number"
             name="userCount"
             value={inputs.userCount}
             onChange={handleNumberChange}
             min="1"
-            style={{ width: '80px', marginLeft: '10px' }}
           />
         </div>
 
         {/* Usage Profile */}
-        <h3>Usage Profile (%)</h3>
-        <div style={{ marginBottom: '10px' }}>
-          <label>Streaming (4K): </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={inputs.usageProfile.streaming}
-            onChange={(e) => handleUsageChange('streaming', e.target.value)}
-          />
-          <span>{inputs.usageProfile.streaming}%</span>
-        </div>
+        <div className="form-group">
+          <label>Usage Profile (%)</label>
+          
+          <div className="slider-group">
+            <label>
+              <span>Streaming (4K)</span>
+              <span className="slider-value">{inputs.usageProfile.streaming}%</span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={inputs.usageProfile.streaming}
+              onChange={(e) => handleUsageChange('streaming', e.target.value)}
+            />
+          </div>
 
-        <div style={{ marginBottom: '10px' }}>
-          <label>Gaming: </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={inputs.usageProfile.gaming}
-            onChange={(e) => handleUsageChange('gaming', e.target.value)}
-          />
-          <span>{inputs.usageProfile.gaming}%</span>
-        </div>
+          <div className="slider-group">
+            <label>
+              <span>Gaming</span>
+              <span className="slider-value">{inputs.usageProfile.gaming}%</span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={inputs.usageProfile.gaming}
+              onChange={(e) => handleUsageChange('gaming', e.target.value)}
+            />
+          </div>
 
-        <div style={{ marginBottom: '10px' }}>
-          <label>Browsing: </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={inputs.usageProfile.browsing}
-            onChange={(e) => handleUsageChange('browsing', e.target.value)}
-          />
-          <span>{inputs.usageProfile.browsing}%</span>
-        </div>
+          <div className="slider-group">
+            <label>
+              <span>Browsing</span>
+              <span className="slider-value">{inputs.usageProfile.browsing}%</span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={inputs.usageProfile.browsing}
+              onChange={(e) => handleUsageChange('browsing', e.target.value)}
+            />
+          </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label>Video Calls: </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={inputs.usageProfile.videoCalls}
-            onChange={(e) => handleUsageChange('videoCalls', e.target.value)}
-          />
-          <span>{inputs.usageProfile.videoCalls}%</span>
+          <div className="slider-group">
+            <label>
+              <span>Video Calls</span>
+              <span className="slider-value">{inputs.usageProfile.videoCalls}%</span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={inputs.usageProfile.videoCalls}
+              onChange={(e) => handleUsageChange('videoCalls', e.target.value)}
+            />
+          </div>
+
+          {totalUsage !== 100 && (
+            <div style={{ 
+              color: totalUsage > 100 ? '#dc3545' : '#ffc107', 
+              marginTop: '10px',
+              fontSize: '0.9rem',
+              fontWeight: 500
+            }}>
+              Total usage: {totalUsage}% {totalUsage > 100 ? '(Cannot exceed 100%)' : '(Should equal 100%)'}
+            </div>
+          )}
         </div>
 
         {/* Peak Concurrency */}
-        <div style={{ marginBottom: '15px' }}>
-          <label>Peak Concurrency: </label>
+        <div className="form-group">
+          <label>Peak Concurrency</label>
           <select
             name="peakConcurrency"
             value={inputs.peakConcurrency}
@@ -134,8 +157,8 @@ const handleSubmit = (e) => {
         </div>
 
         {/* Growth Projection */}
-        <div style={{ marginBottom: '20px' }}>
-          <label>Plan for Growth (years): </label>
+        <div className="form-group">
+          <label>Plan for Growth (years)</label>
           <input
             type="number"
             name="growthYears"
@@ -143,77 +166,110 @@ const handleSubmit = (e) => {
             onChange={handleNumberChange}
             min="0"
             max="10"
-            style={{ width: '60px', marginLeft: '10px' }}
           />
         </div>
 
-        <button 
-          type="submit"
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#0066cc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
+        <button type="submit" className="btn-primary">
           Calculate Bandwidth
         </button>
       </form>
 
-      {/* Results Display */}
+      {/* Results */}
       {result && (
-        <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f0f0f0', borderRadius: '8px' }}>
-          <h3>Results</h3>
-          <p><strong>Base Bandwidth:</strong> {result.baseBandwidth} Mbps</p>
-          <p><strong>With Overhead (25%):</strong> {result.withOverhead} Mbps</p>
-          <p><strong>Future-Proofed ({inputs.growthYears} years):</strong> {result.futureProofed} Mbps</p>
+        <div className="results-card">
+          <h3>Calculation Results</h3>
           
+          <div className="result-row">
+            <span className="result-label">Base Bandwidth</span>
+            <span className="result-value">{result.baseBandwidth} Mbps</span>
+          </div>
+          
+          <div className="result-row">
+            <span className="result-label">With Overhead (25%)</span>
+            <span className="result-value">{result.withOverhead} Mbps</span>
+          </div>
+          
+          <div className="result-row">
+            <span className="result-label">Future-Proofed ({inputs.growthYears} years)</span>
+            <span className="result-value">{result.futureProofed} Mbps</span>
+          </div>
+
           <h4>Infrastructure Recommendation</h4>
-          <p><strong>Type:</strong> {result.infrastructure.description}</p>
-          <p><strong>Category:</strong> {result.infrastructure.type}</p>
-          <p><strong>Max Capacity:</strong> {result.infrastructure.maxCapacity} Mbps</p>
           
-          <div style={{ marginTop: '15px' }}>
+          <div className="result-row">
+            <span className="result-label">Type</span>
+            <span className="result-value">{result.infrastructure.description}</span>
+          </div>
+          
+          <div className="result-row">
+            <span className="result-label">Category</span>
+            <span className="result-value">{result.infrastructure.type}</span>
+          </div>
+          
+          <div className="result-row">
+            <span className="result-label">Max Capacity</span>
+            <span className="result-value">{result.infrastructure.maxCapacity} Mbps</span>
+          </div>
+
+          <div className="pros-cons">
             <strong>Pros:</strong>
-            <ul>{result.infrastructure.pros.map((pro, i) => <li key={i}>{pro}</li>)}</ul>
+            <ul>
+              {result.infrastructure.pros.map((pro, i) => <li key={i}>{pro}</li>)}
+            </ul>
             
             <strong>Cons:</strong>
-            <ul>{result.infrastructure.cons.map((con, i) => <li key={i}>{con}</li>)}</ul>
+            <ul>
+              {result.infrastructure.cons.map((con, i) => <li key={i}>{con}</li>)}
+            </ul>
           </div>
+
           {result.costs && (
-  <>
-    <h4>Cost Estimate ({result.costs.planningPeriodYears} years)</h4>
-    <p><strong>Initial Investment:</strong> R{result.costs.initialCosts.total.toLocaleString()}</p>
-    <p><strong>Monthly Recurring:</strong> R{result.costs.recurringCosts.monthly}/month</p>
-    <p><strong>Total Cost of Ownership:</strong> R{result.costs.summary.totalCostOfOwnership.toLocaleString()}</p>
-    <p><strong>Cost per Mbps:</strong> R{result.costs.summary.costPerMbps}</p>
-    <p><strong>Setup Time:</strong> {result.costs.summary.setupTime}</p>
-    
-    <div style={{ marginTop: '10px', fontSize: '0.9em', color: '#666' }}>
-      <strong>Notes:</strong>
-      <ul>{result.costs.notes.map((note, i) => <li key={i}>{note}</li>)}</ul>
-    </div>
-  </>
-)}
+            <div className="cost-section">
+              <h4>Cost Estimate ({result.costs.planningPeriodYears} years)</h4>
+              
+              <div className="result-row">
+                <span className="result-label">Initial Investment</span>
+                <span className="cost-amount">R {result.costs.initialCosts.total.toLocaleString()}</span>
+              </div>
+              
+              <div className="result-row">
+                <span className="result-label">Monthly Recurring</span>
+                <span className="result-value">R {result.costs.recurringCosts.monthly}/month</span>
+              </div>
+              
+              <div className="result-row">
+                <span className="result-label">Total Cost of Ownership</span>
+                <span className="cost-amount">R {result.costs.summary.totalCostOfOwnership.toLocaleString()}</span>
+              </div>
+              
+              <div className="result-row">
+                <span className="result-label">Cost per Mbps</span>
+                <span className="result-value">R {result.costs.summary.costPerMbps}</span>
+              </div>
+              
+              <div className="result-row">
+                <span className="result-label">Setup Time</span>
+                <span className="result-value">{result.costs.summary.setupTime}</span>
+              </div>
+
+              <div className="notes-section">
+                <strong>Notes:</strong>
+                <ul>
+                  {result.costs.notes.map((note, i) => <li key={i}>{note}</li>)}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          <button 
+            onClick={() => generatePDF(result, inputs)}
+            className="btn-secondary"
+            style={{ marginTop: '20px' }}
+          >
+            Download PDF Report
+          </button>
         </div>
       )}
-      
-      <button
-  onClick={() => generatePDF(result, inputs)}
-  style={{
-    marginTop: '20px',
-    padding: '10px 20px',
-    backgroundColor: '#28a745',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer'
-  }}
->
-  Download PDF Report
-</button>
     </div>
   );
 }
