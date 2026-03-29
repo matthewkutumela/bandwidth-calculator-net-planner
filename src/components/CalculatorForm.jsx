@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { calculateBandwidth } from '../calculator/engine';
 import { estimateCosts } from '../calculator/costEstimator';
+import { generatePDF } from '../utils/pdfExport';
 
 function CalculatorForm() {
   // State: where user input lives
@@ -198,6 +199,21 @@ const handleSubmit = (e) => {
 )}
         </div>
       )}
+      
+      <button
+  onClick={() => generatePDF(result, inputs)}
+  style={{
+    marginTop: '20px',
+    padding: '10px 20px',
+    backgroundColor: '#28a745',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer'
+  }}
+>
+  Download PDF Report
+</button>
     </div>
   );
 }
