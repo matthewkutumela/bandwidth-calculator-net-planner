@@ -3,28 +3,28 @@
 
 const COST_RATES = {
   wireless: {
-    equipmentCost: 500,        // Router/antenna per location
-    installationCost: 200,     // Labor
-    monthlyCost: 150,          // Data plan
+    equipmentCost: 9000,      
+    installationCost: 3600,     
+    monthlyCost: 2700,          
     setupTime: '1-2 days',
     lifespanYears: 5
   },
   fiber: {
-    equipmentCost: 2000,       // ONT, router, switches
-    installationCostPerMeter: 15,  // Trenching, cables
-    averageDistanceMeters: 500,    // Distance to nearest fiber point
-    monthlyCost: 300,          // ISP service
+    equipmentCost: 36000,       
+    installationCostPerMeter: 270,  
+    averageDistanceMeters: 500,
+    monthlyCost: 5400,          
     setupTime: '1-2 weeks',
     lifespanYears: 20
   },
   enterprise: {
-    equipmentCost: 15000,      // Redundant routers, switches, backup power
-    installationCostPerMeter: 25,  // Dedicated trenching
+    equipmentCost: 270000,     
+    installationCostPerMeter: 450,  
     averageDistanceMeters: 500,
-    monthlyCost: 1200,         // SLA service with guarantees
+    monthlyCost: 21600,        
     setupTime: '1-2 months',
     lifespanYears: 20,
-    annualMaintenance: 3000    // Ongoing support
+    annualMaintenance: 54000   
   }
 };
 

@@ -88,7 +88,7 @@
             };
         } else {
             return{
-                type: 'Enterprise',
+                type: 'enterprise',
                 description: 'Dedicated fiber with reduncancy',
                 maxCapacity: 10000,
                 pros: ['High reliability', 'SLA guaranteed'],

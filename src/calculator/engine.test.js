@@ -66,6 +66,6 @@ describe('Infrastructure Determination', () => {
     });
     test('recommends enterprise for high bandwidth',() => {
         const result = determineInfrastructure(1500); 
-        expect(result.type).toBe('Enterprise');
+        expect(result.type).toBe('enterprise');
     });
 });

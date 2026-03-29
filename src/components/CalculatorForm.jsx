@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { calculateBandwidth } from '../calculator/engine';
+import { estimateCosts } from '../calculator/costEstimator';
 
 function CalculatorForm() {
   // State: where user input lives
@@ -37,12 +38,16 @@ function CalculatorForm() {
     }));
   };
 
-  // Calculate when form submits
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const calculation = calculateBandwidth(inputs);
-    setResult(calculation);
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const calculation = calculateBandwidth(inputs);
+  const costs = estimateCosts(
+    calculation.infrastructure.type,
+    calculation.futureProofed,
+    inputs.growthYears
+  );
+  setResult({ ...calculation, costs }); 
+};
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
@@ -176,6 +181,21 @@ function CalculatorForm() {
             <strong>Cons:</strong>
             <ul>{result.infrastructure.cons.map((con, i) => <li key={i}>{con}</li>)}</ul>
           </div>
+          {result.costs && (
+  <>
+    <h4>Cost Estimate ({result.costs.planningPeriodYears} years)</h4>
+    <p><strong>Initial Investment:</strong> R{result.costs.initialCosts.total.toLocaleString()}</p>
+    <p><strong>Monthly Recurring:</strong> R{result.costs.recurringCosts.monthly}/month</p>
+    <p><strong>Total Cost of Ownership:</strong> R{result.costs.summary.totalCostOfOwnership.toLocaleString()}</p>
+    <p><strong>Cost per Mbps:</strong> R{result.costs.summary.costPerMbps}</p>
+    <p><strong>Setup Time:</strong> {result.costs.summary.setupTime}</p>
+    
+    <div style={{ marginTop: '10px', fontSize: '0.9em', color: '#666' }}>
+      <strong>Notes:</strong>
+      <ul>{result.costs.notes.map((note, i) => <li key={i}>{note}</li>)}</ul>
+    </div>
+  </>
+)}
         </div>
       )}
     </div>
