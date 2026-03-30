@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/bandwidth-calculator-net-planner/static/css/main.54af2fc6.css",
+    "main.js": "/bandwidth-calculator-net-planner/static/js/main.c10e20b6.js",
+    "static/js/239.4f2b98c1.chunk.js": "/bandwidth-calculator-net-planner/static/js/239.4f2b98c1.chunk.js",
+    "static/js/977.f3594ddb.chunk.js": "/bandwidth-calculator-net-planner/static/js/977.f3594ddb.chunk.js",
+    "static/js/732.744ba19e.chunk.js": "/bandwidth-calculator-net-planner/static/js/732.744ba19e.chunk.js",
+    "index.html": "/bandwidth-calculator-net-planner/index.html",
+    "main.54af2fc6.css.map": "/bandwidth-calculator-net-planner/static/css/main.54af2fc6.css.map",
+    "main.c10e20b6.js.map": "/bandwidth-calculator-net-planner/static/js/main.c10e20b6.js.map",
+    "239.4f2b98c1.chunk.js.map": "/bandwidth-calculator-net-planner/static/js/239.4f2b98c1.chunk.js.map",
+    "977.f3594ddb.chunk.js.map": "/bandwidth-calculator-net-planner/static/js/977.f3594ddb.chunk.js.map",
+    "732.744ba19e.chunk.js.map": "/bandwidth-calculator-net-planner/static/js/732.744ba19e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.54af2fc6.css",
+    "static/js/main.c10e20b6.js"
+  ]
+}
