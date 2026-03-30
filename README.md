@@ -1,34 +1,36 @@
 # Bandwidth Planner & Network Planning Tool
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://matthewkutumela.github.io/bandwidth-calculator-net-planner)
-[![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+**Live Demo:** https://matthewkutumela.github.io/bandwidth-calculator-net-planner
 
-A professional web-based calculator for network infrastructure planning. Calculates bandwidth requirements and recommends physical infrastructure (fiber vs. wireless) with cost estimates in South African Rands.
+A web-based calculator for network infrastructure planning. Calculates bandwidth requirements and recommends fiber vs. wireless solutions with cost estimates in South African Rands.
 
-## 🌐 Live Demo
+## Features
 
-**Try it now:** https://matthewkutumela.github.io/bandwidth-calculator-net-planner
+- Bandwidth calculations with 25% overhead buffer
+- Infrastructure recommendations (wireless, fiber, enterprise)
+- Cost estimation in ZAR (South African Rands)
+- PDF report generation
+- Responsive design for all devices
 
-## ✨ Features
+## Tech Stack
 
-- **Bandwidth Calculations**: Real-time computation with 25% overhead buffer and future-proofing projections
-- **Infrastructure Recommendations**: Automatic suggestions for wireless, fiber, or enterprise solutions
-- **Cost Estimation**: Total cost of ownership (TCO) calculations in South African Rands (ZAR)
-- **PDF Reports**: Downloadable planning reports for stakeholders
-- **Input Validation**: Auto-balancing usage percentages and form validation
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
+- React
+- CSS3
+- jsPDF (PDF generation)
+- Jest (testing)
+- GitHub Pages (deployment)
 
-## 🛠️ Tech Stack
+## How to Use
 
-| Category | Technology |
-|----------|------------|
-| Frontend | React 18 |
-| Styling | CSS3 with custom properties |
-| PDF Generation | jsPDF |
-| Testing | Jest |
-| Deployment | GitHub Pages |
+1. Enter number of users
+2. Set usage percentages (streaming, gaming, browsing, video calls)
+3. Select peak concurrency level
+4. Choose growth projection years
+5. Click "Calculate Bandwidth"
+6. Download PDF report if needed
 
-## 📊 Calculation Methodology
+## Local Development
 
-### Bandwidth Formula
+```bash
+npm install
+npm start
