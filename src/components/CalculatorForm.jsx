@@ -52,6 +52,37 @@ function CalculatorForm() {
     setResult({ ...calculation, costs });
   };
 
+  // Validation
+  const isValid = () => {
+    if (totalUsage !== 100) {
+      return { valid: false, message: `Usage percentages must total 100% (currently ${totalUsage}%)` };
+    }
+    if (inputs.userCount < 1) {
+      return { valid: false, message: 'User count must be at least 1' };
+    }
+    return { valid: true };
+  };
+
+  const autoBalance = () => {
+    const current = inputs.usageProfile;
+    const total = Object.values(current).reduce((a, b) => a + b, 0);
+    
+    if (total === 0) return;
+    
+    const factor = 100 / total;
+    setInputs(prev => ({
+      ...prev,
+      usageProfile: {
+        streaming: Math.round(current.streaming * factor),
+        gaming: Math.round(current.gaming * factor),
+        browsing: Math.round(current.browsing * factor),
+        videoCalls: Math.round(current.videoCalls * factor)
+      }
+    }));
+  };
+
+  const validation = isValid();
+
   return (
     <div className="calculator-card">
       <h2>Network Bandwidth Calculator</h2>
@@ -139,6 +170,24 @@ function CalculatorForm() {
               Total usage: {totalUsage}% {totalUsage > 100 ? '(Cannot exceed 100%)' : '(Should equal 100%)'}
             </div>
           )}
+
+          {/* Auto-Balance Button */}
+          <button 
+            type="button"
+            onClick={autoBalance}
+            style={{
+              padding: '5px 10px',
+              backgroundColor: '#6c757d',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '0.85rem',
+              marginTop: '10px'
+            }}
+          >
+            Auto-Balance to 100%
+          </button>
         </div>
 
         {/* Peak Concurrency */}
@@ -169,7 +218,30 @@ function CalculatorForm() {
           />
         </div>
 
-        <button type="submit" className="btn-primary">
+        {/* Validation Message */}
+        {!validation.valid && (
+          <div style={{ 
+            color: '#dc3545', 
+            marginBottom: '15px',
+            padding: '10px',
+            backgroundColor: '#f8d7da',
+            borderRadius: '4px',
+            fontSize: '0.9rem'
+          }}>
+            ⚠️ {validation.message}
+          </div>
+        )}
+
+        {/* Submit Button */}
+        <button 
+          type="submit" 
+          className="btn-primary"
+          disabled={!validation.valid}
+          style={{ 
+            opacity: validation.valid ? 1 : 0.6,
+            cursor: validation.valid ? 'pointer' : 'not-allowed'
+          }}
+        >
           Calculate Bandwidth
         </button>
       </form>
